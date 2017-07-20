@@ -3,7 +3,6 @@ var parser = require('body-parser');
 var fs = require('fs');
 
 var app = express();
-var bible_en = JSON.parse(fs.readFileSync('data/bible_english_new.json', 'utf8'));
 
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
@@ -12,6 +11,9 @@ app.use(parser.urlencoded({extended: true}));
 app.use(parser.json());
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
+
+// get JSON file of bibles
+var bible_en = JSON.parse(fs.readFileSync('data/bible_english_new.json', 'utf8'));
 
 app.get('/', (request, response) => {
     // render views/index.ejs
@@ -39,5 +41,5 @@ app.put('/quotes', (request, response) => {
 });
 
 app.listen(server_port, server_ip_address, function() {
-	console.log('Example app listening on port', server_port);
+	console.log('Listening on ' + server_ip_address + ', server_port ' + server_port);
 });
