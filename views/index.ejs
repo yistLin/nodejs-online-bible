@@ -29,14 +29,14 @@
                 </ul>
             </div>
             <div class="col-md-9">
-                <ul class="quotes">
-                    <% for (var i = 0; i < quotes.length; i++) { %>
-                        <li class="quote">
-                            <span><%= quotes[i].name %>: </span>
-                            <span><%= quotes[i].quote %></span>
-                        </li>
+                <table class="table">
+                    <% for (verse_num in text) { %>
+                        <tr>
+                            <td><%= verse_num %></td>
+                            <td><%= text[verse_num] %></td>
+                        </tr>
                     <% } %>
-                </ul>
+                </table>
             </div>
         </div>
     </div>

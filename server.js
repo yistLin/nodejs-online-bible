@@ -1,47 +1,43 @@
-#!/bin/node env
-
 var express = require('express');
 var parser = require('body-parser');
-// var MongoClient = require('mongodb').MongoClient;
-var app = express();
-var server;
-var db;
+var fs = require('fs');
 
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+var app = express();
+var bible_en = JSON.parse(fs.readFileSync('data/bible_english_new.json', 'utf8'));
+
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 app.use(parser.urlencoded({extended: true}));
-app.use(parser.json())
+app.use(parser.json());
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 app.get('/', (request, response) => {
     // render views/index.ejs
-    response.render('index.ejs', {quotes: result});
+    response.render('index.ejs',
+        {text: bible_en[0]['chapters'][0]['verses']}
+        );
+});
+
+app.get('/chapter', (request, response) => {
+    console.log('lang =', request.query.lang);
+    console.log('bid =', request.query.bid);
+    console.log('cid =', request.query.cid);
+
+    // render views/chapter.ejs
+    response.render('chapter.ejs'
+        );
 });
 
 app.post('/quotes', (request, response) => {
     console.log('Receive a post request');
     console.log(request.body);
-
-    // db.collection('quotes').save(request.body, (error, result) => {
-    //     if (error) return console.log(error);
-
-    //     console.log('Saved to database');
-    //     response.redirect('/');
-    // });
 });
 
 app.put('/quotes', (request, response) => {
-    // db.collection('quotes').findOneAndUpdate(
-    //     {},
-    //     {
-    //         $set:{
-    //             name:request.body.name,
-    //             quote:request.body.quote
-    //         }
-    //     },
-    //     {},
-    //     {}
-    // )
+});
+
+app.listen(server_port, server_ip_address, function() {
+	console.log('Example app listening on port', server_port);
 });
