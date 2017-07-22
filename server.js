@@ -144,7 +144,7 @@ app.post('/login', function(req, res) {
         res.redirect(req.body.url);
     } else {
         console.log('Login failed!');
-        res.redirect('login.ejs');
+        res.redirect(req.body.url);
     }
 });
 
