@@ -7,16 +7,6 @@ var books = {
     "gk": ["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel","1 Kings","2 Kings","1 Chronicles","2 Chronicles","Ezra","Nehemiah","Esther","Job","Psalm","Proverbs","Ecclesiastes","Song of Songs","Isaiah","Jeremiah","Lamentations","Ezekiel","Daniel","Hosea","Joel","Amos","Obadiah","Jonah","Micah","Nahum","Habakkuk","Zephaniah","Haggai","Zechariah","Malachi","Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians","Philippians","Colossians","1 Thessalonians","2 Thessalonians","1 Timothy","2 Timothy","Titus","Philemon","Hebrews","James","1 Peter","2 Peter","1 John","2 John","3 John","Jude","Revelation"]
 }
 
-// for global footnote accessing
-var footnotes = [];
-var en_footnotes = [];
-
-// for crawling
-var currentBook = 1;
-var currentChapter = 1;
-var currentVersion = "ch";
-var currentViceVersion = "en";
-
 $(document).ready(function(){
     // get information from $_GET
     var lang = location.href.match(/lang=([a-z]+)/)[1];
@@ -73,6 +63,16 @@ $(document).ready(function(){
             }
         });
     });
+
+    // handle click on chinese footnote
+    $('a.notes').click(function() {
+        var footnote_index = $(this).attr('id').substr(5);
+        var footnoteNum = footnote_index.split('_')[4];
+        var verse = $(this).parent().parent().html();
+        $.get('/fnt', {lang: 'ch', fntIdx: footnote_index}).done(function(data) {
+            showFootnoteModal('註解', footnoteNum, verse, data);
+        });
+    });
 });
 
 function updateBookPickerLang() {
@@ -85,16 +85,6 @@ function updateBookPickerLang() {
         );
     }
     $('#bookpicker').val(tempBook);
-}
-
-function nextBook() {
-    $('a.next_book_btn').hide();
-    currentBook = Number(currentBook) + 1;
-    $('#bookpicker').val(currentBook);
-    $('#bookpicker').trigger('change');
-    currentChapter = 1;
-    $('#chapterpicker').val(currentChapter);
-    crawVerses();
 }
 
 var showFootnoteModal = function(titlePrefix, ftNumber, verse, ft) {

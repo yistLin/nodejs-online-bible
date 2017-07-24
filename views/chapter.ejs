@@ -122,7 +122,8 @@
             <% for (verse_n in verses) { %>
             <tr>
               <td><span class="v_number"><%= verse_n %></span></td>
-              <td><span class="ch_verse"><%= verses[verse_n] %></span></td>
+              <!-- use %- to not to escape the anchors -->
+              <td><span class="ch_verse"><%- verses[verse_n] %></span></td>
             </tr>
             <% } %>
           </tbody>

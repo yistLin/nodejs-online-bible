@@ -69,8 +69,10 @@ app.use(checkAuth);
 
 // get JSON file of bibles
 var bible = {};
-bible['ch'] = JSON.parse(fs.readFileSync('data/bible.json', 'utf8'));
+var footnote = {};
+bible['ch'] = JSON.parse(fs.readFileSync('data/bible_footnote.json', 'utf8'));
 bible['en'] = JSON.parse(fs.readFileSync('data/bible_english.json', 'utf8'));
+footnote['ch'] = JSON.parse(fs.readFileSync('data/footnote.json', 'utf8'));
 
 app.get('/', function(req, res) {
     res.render('books.ejs');
@@ -126,6 +128,12 @@ app.get('/chapter', function(req, res) {
         prevChapterURL: prev_url,
         nextChapterURL: next_url
     });
+});
+
+app.get('/fnt', function(req, res) {
+    var lang = req.query.lang;
+    var fntIdx = req.query.fntIdx;
+    res.send(footnote[lang][fntIdx]);
 });
 
 app.get('/login', function(req, res) {
