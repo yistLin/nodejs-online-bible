@@ -123,7 +123,13 @@
             <% for (verse_n in verses) { %>
             <tr>
               <td><span class="v_number"><%= verse_n %></span></td>
-              <td><span class="ch_verse"><%- verses[verse_n] %></span></td>
+              <td>
+                <span class="<%= lang %>_verse"><%- verses[verse_n] %></span>
+                <% if (vlang !== '') { %>
+                <br>
+                <span class="vice_content <%= vlang%>_verse"><%- vverses[verse_n] %></span>
+                <% } %>
+              </td>
             </tr>
             <% } %>
           </tbody>

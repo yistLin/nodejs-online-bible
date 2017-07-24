@@ -10,6 +10,11 @@ var books = {
 $(document).ready(function(){
     // get information from $_GET
     var lang = location.href.match(/lang=([a-z]+)/)[1];
+    var vlang = location.href.match(/vlang=([a-z]+)/);
+    if (vlang)
+        vlang = vlang[1];
+    else
+        vlang = '';
     var cid = location.href.match(/cid=([0-9]+)/)[1];
     var bid = location.href.match(/bid=([0-9]+)/)[1];
 
@@ -52,6 +57,7 @@ $(document).ready(function(){
     });
 
     $('#versionpicker').val(lang);
+    $('#viceversionpicker').val(vlang);
     bookpicker.val(bid);
     bookpicker.trigger('change');
     $('#chapterpicker').val(cid);
@@ -80,7 +86,7 @@ $(document).ready(function(){
     });
 
     $('#goto_btn').click(function() {
-        window.location = '/chapter?lang=' + $('#versionpicker').val() + '&bid=' + $('#bookpicker').val() + '&cid=' + $('#chapterpicker').val();
+        window.location = '/chapter?lang=' + $('#versionpicker').val() + '&vlang=' + $('#viceversionpicker').val() + '&bid=' + $('#bookpicker').val() + '&cid=' + $('#chapterpicker').val();
     });
 });
 

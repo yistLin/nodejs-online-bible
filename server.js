@@ -80,12 +80,16 @@ app.get('/', function(req, res) {
 
 app.get('/chapter', function(req, res) {
     var lang = req.query.lang;
+    var vlang = req.query.vlang;
     var bid = parseInt(req.query.bid);
     var cid = parseInt(req.query.cid);
 
     // handle undefined variables
     if (lang === undefined) {
         lang = 'ch';
+    }
+    if (vlang === undefined) {
+        vlang = '';
     }
     if (bid === undefined) {
         bid = 1;
@@ -120,11 +124,20 @@ app.get('/chapter', function(req, res) {
         next_url = '';
     }
 
+    // check if vice verses are requested
+    var viceverses = null;
+    if (vlang !== '' && vlang !== lang) {
+        viceverses = bible[vlang][bid-1]['chapters'][cid-1]['verses'];
+    }
+
     // render views/chapter.ejs
     res.render('chapter.ejs', {
+        lang: lang,
+        vlang: vlang,
         bookname: booknames[lang][bid-1],
         chaptername: strings[lang]['chapterPrefix'] + cid + strings[lang]['chapterPostfix'],
         verses: bible[lang][bid-1]['chapters'][cid-1]['verses'],
+        vverses: viceverses,
         prevChapterURL: prev_url,
         nextChapterURL: next_url
     });
