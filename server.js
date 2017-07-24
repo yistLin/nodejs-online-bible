@@ -113,13 +113,13 @@ app.get('/chapter', function(req, res) {
     }
 
     // check if previous chapter exists
-    var prev_url = '/chapter?lang='+lang+'&bid='+bid+'&cid='+(cid-1);
+    var prev_url = '/chapter?lang='+lang+'&vlang='+vlang+'&bid='+bid+'&cid='+(cid-1);
     if (cid == 1) {
         prev_url = '';
     }
 
     // check if next chapter exists
-    var next_url = '/chapter?lang='+lang+'&bid='+bid+'&cid='+(cid+1);
+    var next_url = '/chapter?lang='+lang+'&vlang='+vlang+'&bid='+bid+'&cid='+(cid+1);
     if (cid == nb_chapters_this_book) {
         next_url = '';
     }
