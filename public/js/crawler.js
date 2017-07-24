@@ -27,19 +27,19 @@ $(document).ready(function(){
     }
     $('#versionpicker').append(
         '<option value="ch">中文</option>' +
-        '<option value="en">English</option>' +
-        '<option value="de">Deutsch</option>' +
-        '<option value="jp">にほんご</option>' +
-        '<option value="gk">Ελληνικά</option>'
-    )
+        '<option value="en">English</option>'
+        // '<option value="de">Deutsch</option>' +
+        // '<option value="jp">にほんご</option>' +
+        // '<option value="gk">Ελληνικά</option>'
+    );
     $('#viceversionpicker').append(
         '<option value="">無</option>' +
         '<option value="ch">中文</option>' +
-        '<option value="en">English</option>' +
-        '<option value="de">Deutsch</option>' +
-        '<option value="jp">にほんご</option>' +
-        '<option value="gk">Ελληνικά</option>'
-    )
+        '<option value="en">English</option>'
+        // '<option value="de">Deutsch</option>' +
+        // '<option value="jp">にほんご</option>' +
+        // '<option value="gk">Ελληνικά</option>'
+    );
 
     // handle chapterPicker content
     bookpicker.on('change', function() {
@@ -50,6 +50,11 @@ $(document).ready(function(){
             optionList += '<option value="' + Number(i+1) + '">' + Number(i+1) + '</option>';
         $('#chapterpicker').append(optionList);
     });
+
+    $('#versionpicker').val(lang);
+    bookpicker.val(bid);
+    bookpicker.trigger('change');
+    $('#chapterpicker').val(cid);
 
     // menu icon rotate when being clicked on
     var rotateAngle = 0;
@@ -72,6 +77,10 @@ $(document).ready(function(){
         $.get('/fnt', {lang: 'ch', fntIdx: footnote_index}).done(function(data) {
             showFootnoteModal('註解', footnoteNum, verse, data);
         });
+    });
+
+    $('#goto_btn').click(function() {
+        window.location = '/chapter?lang=' + $('#versionpicker').val() + '&bid=' + $('#bookpicker').val() + '&cid=' + $('#chapterpicker').val();
     });
 });
 
@@ -113,18 +122,20 @@ var showFootnoteModal = function(titlePrefix, ftNumber, verse, ft) {
   });
 
   msgModal.on('shown.bs.modal', function() {
-    $('i > a.notes').on('click', function() {
-      var footnote_index = $(this).attr('id').substr(5);
-      var footnoteNum = footnote_index.split('_')[4];
-      $('#modal-title').text(titlePrefix+"#"+footnoteNum);
-      $('#footnote-content').html(footnotes[footnote_index]);
+    $('span > a.notes').click(function() {
+        var footnote_index = $(this).attr('id').substr(5);
+        var footnoteNum = footnote_index.split('_')[4];
+        $.get('/fnt', {lang: 'ch', fntIdx: footnote_index}).done(function(data) {
+            $('#modal-title').text(titlePrefix+"#"+footnoteNum);
+            $('#footnote-content').html(data);
+        });
     });
-    $('i > sup > a.en_notes').on('click', function() {
-      var footnote_id = $(this).attr('fntId');
-      var footnoteNum = $(this).text();
-      $('#modal-title').text(titlePrefix+"#"+footnoteNum);
-      $('#footnote-content').html(en_footnotes[footnote_id]);
-    });
+    // $('i > sup > a.en_notes').on('click', function() {
+    //   var footnote_id = $(this).attr('fntId');
+    //   var footnoteNum = $(this).text();
+    //   $('#modal-title').text(titlePrefix+"#"+footnoteNum);
+    //   $('#footnote-content').html(en_footnotes[footnote_id]);
+    // });
   });
 
   msgModal.on('hidden.bs.modal', function(){

@@ -146,8 +146,9 @@ app.post('/login', function(req, res) {
     if (req.body.username && req.body.username === "saints" && req.body.password && req.body.password === "welcome") {
         console.log('Login successed!');
         var day = 604800000;
-        req.session.cookie.expires = new Date(Date.now() + day);
-        req.session.cookie.maxAge = day;
+        var twoweeks = day * 14;
+        req.session.cookie.expires = new Date(Date.now() + twoweeks);
+        req.session.cookie.maxAge = twoweeks;
         req.session.authenticated = true;
         res.redirect(req.body.url);
     } else {
