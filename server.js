@@ -79,9 +79,10 @@ app.use(checkAuth);
 var bible = {};
 var footnote = {};
 bible['ch'] = JSON.parse(fs.readFileSync('data/bible_footnote.json', 'utf8'));
+bible['en'] = JSON.parse(fs.readFileSync('data/bible_english.json', 'utf8'));
 bible['nfnt'] = {};
 bible['nfnt']['ch'] = JSON.parse(fs.readFileSync('data/bible.json', 'utf8'));
-bible['en'] = JSON.parse(fs.readFileSync('data/bible_english.json', 'utf8'));
+bible['nfnt']['en'] = bible['en'];
 footnote['ch'] = JSON.parse(fs.readFileSync('data/footnote.json', 'utf8'));
 
 app.get('/', function(req, res) {
@@ -173,7 +174,7 @@ app.get('/search', function(req, res) {
     var search = req.query.search;
 
     if (search === undefined || search === '') {
-        res.render('search.ejs', {lang: 'ch', results: []});
+        res.render('search.ejs', {lang: lang, results: []});
         return;
     }
 
@@ -183,7 +184,7 @@ app.get('/search', function(req, res) {
 
     for (var bid = 0; bid < 66; bid++) {
         for (var cid = 0; cid < nb_chapters[bid]; cid++) {
-            verses = bible['nfnt']['ch'][bid]['chapters'][cid]['verses'];
+            verses = bible['nfnt'][lang][bid]['chapters'][cid]['verses'];
             for (var key in verses) {
                 pos = verses[key].indexOf(search);
                 if (pos !== -1) {
@@ -191,8 +192,8 @@ app.get('/search', function(req, res) {
                     v = verses[key];
                     v = v.slice(0, pos) + '<u>' + v.slice(pos, pos+search.length) + '</u>' + v.slice(pos+search.length);
                     matches.push({
-                        addr: abbr_booknames['ch'][bid] + '<br>' + (cid+1) + ':' + key,
-                        url: '/chapter?lang=ch&vlang=&bid='+(bid+1)+'&cid='+(cid+1),
+                        addr: abbr_booknames[lang][bid] + '<br>' + (cid+1) + ':' + key,
+                        url: '/chapter?lang='+lang+'&vlang=&bid='+(bid+1)+'&cid='+(cid+1),
                         verse: v
                     });
                 }
@@ -200,7 +201,7 @@ app.get('/search', function(req, res) {
         }
     }
 
-    res.render('search.ejs', {lang: 'ch', results: matches});
+    res.render('search.ejs', {lang: lang, results: matches});
 });
 
 app.get('/login', function(req, res) {
