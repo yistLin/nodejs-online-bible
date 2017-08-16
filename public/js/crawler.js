@@ -32,16 +32,16 @@ $(document).ready(function(){
     }
     $('#versionpicker').append(
         '<option value="ch">中文</option>' +
-        '<option value="en">English</option>'
-        // '<option value="de">Deutsch</option>' +
+        '<option value="en">English</option>' +
+        '<option value="de">Deutsch</option>'
         // '<option value="jp">にほんご</option>' +
         // '<option value="gk">Ελληνικά</option>'
     );
     $('#viceversionpicker').append(
         '<option value="">無</option>' +
         '<option value="ch">中文</option>' +
-        '<option value="en">English</option>'
-        // '<option value="de">Deutsch</option>' +
+        '<option value="en">English</option>' +
+        '<option value="de">Deutsch</option>'
         // '<option value="jp">にほんご</option>' +
         // '<option value="gk">Ελληνικά</option>'
     );

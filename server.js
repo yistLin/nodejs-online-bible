@@ -7,7 +7,8 @@ var app = express();
 var nb_chapters = [50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
 var testament = {
     'ch': {'ot': '舊約聖經', 'nt': '新約聖經'},
-    'en': {'ot': 'Old Testament', 'nt': 'New Testament'}
+    'en': {'ot': 'Old Testament', 'nt': 'New Testament'},
+    'de': {'ot': 'Alten Testaments', 'nt': 'Neuen Testaments'}
 };
 var booknames = {
     "ch": ["創世紀","出埃及記","利未記","民數記","申命記","約書亞記","士師記","路得記","撒母耳記上","撒母耳記下","列王記上","列王記下","歷代志上","歷代志下","以斯拉記","尼希米記","以斯帖記","約伯記","詩篇","箴言","傳道書","雅歌","以賽亞書","耶利米書","耶利米哀歌","以西結書","但以理書","何西阿書","約珥書","阿摩司書","俄巴底亞書","約拿書","彌迦書","那鴻書","哈巴谷書","西番雅書","哈該書","撒迦利亞書","瑪垃基書","馬太福音","馬可福音","路加福音","約翰福音","使徒行傳","羅馬書","哥林多前書","哥林多後書","加拉太書","以弗所書","腓利比書","歌羅西書","帖撒羅尼迦前書","帖撒羅尼迦後書","提摩太前書","提摩太後書","提多書","腓利門書","希伯來書","雅各書","彼得前書","彼得後書","約翰一書","約翰二書","約翰三書","猶大書","啟示錄"],
@@ -80,6 +81,7 @@ var bible = {};
 var footnote = {};
 bible['ch'] = JSON.parse(fs.readFileSync('data/bible_footnote.json', 'utf8'));
 bible['en'] = JSON.parse(fs.readFileSync('data/bible_english.json', 'utf8'));
+bible['de'] = JSON.parse(fs.readFileSync('data/bible_german.json', 'utf8'));
 bible['nfnt'] = {};
 bible['nfnt']['ch'] = JSON.parse(fs.readFileSync('data/bible.json', 'utf8'));
 bible['nfnt']['en'] = bible['en'];
@@ -146,7 +148,7 @@ app.get('/chapter', function(req, res) {
 
     // check if vice verses are requested
     var viceverses = null;
-    if (vlang !== '' && vlang !== lang) {
+    if (vlang !== '') {
         viceverses = bible[vlang][bid-1]['chapters'][cid-1]['verses'];
     }
 
