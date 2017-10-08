@@ -1,12 +1,14 @@
 {
-  "name": "OpenShift-Sample-App",
+  "name": "nodejs-online-bible",
   "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "description": "Online Recovery Version Bible",
   "keywords": [
     "OpenShift",
     "Node.js",
     "application",
-    "openshift"
+    "openshift",
+    "bible",
+    "recovery"
   ],
   "author": {
     "name": "OpenShift",
