@@ -1,3 +1,3 @@
-The OpenShift `nodejs` cartridge documentation can be found at:
+# Online Bible
 
-http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
+Online Recovery Version Bible
