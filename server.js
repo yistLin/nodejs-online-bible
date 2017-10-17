@@ -79,11 +79,11 @@ app.use(checkAuth);
 // get JSON file of bibles
 var bible = {};
 var footnote = {};
-bible['ch'] = JSON.parse(fs.readFileSync('data/bible_footnote.json', 'utf8'));
+bible['ch'] = JSON.parse(fs.readFileSync('data/bible_chinese_footnote.json', 'utf8'));
 bible['en'] = JSON.parse(fs.readFileSync('data/bible_english.json', 'utf8'));
 bible['de'] = JSON.parse(fs.readFileSync('data/bible_german.json', 'utf8'));
 bible['nfnt'] = {};
-bible['nfnt']['ch'] = JSON.parse(fs.readFileSync('data/bible.json', 'utf8'));
+bible['nfnt']['ch'] = JSON.parse(fs.readFileSync('data/bible_chinese.json', 'utf8'));
 bible['nfnt']['en'] = bible['en'];
 footnote['ch'] = JSON.parse(fs.readFileSync('data/footnote.json', 'utf8'));
 
